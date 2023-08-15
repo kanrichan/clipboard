@@ -10,8 +10,12 @@ func Setup() *gin.Engine {
 
 	api := router.Group("/api/v1")
 
-	api.GET("/user/new", apis.NewUser)
-	// api.DELETE("/sessions", apis.Store)
+	api.POST("/user", apis.NewUser)
+	api.POST("/session", apis.NewSession)
+
+	auth := api.Group("")
+	auth.DELETE("/user/:id", apis.DelUser)
+	auth.GET("/user", apis.GetAllUsers)
 
 	return router
 }

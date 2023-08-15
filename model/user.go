@@ -6,11 +6,22 @@ type User struct {
 	Password string `gorm:"column:password" json:"password"`
 }
 
-func NewUser(username, password string) (int64, error) {
+func NewUserByUsername(username, password string) (int64, error) {
 	var user = &User{
 		Username: username,
 		Password: password,
 	}
 	err := DB.Create(&user).Error
 	return user.ID, err
+}
+
+func DelUserByID(id int64) error {
+	var user = &User{ID: id}
+	err := DB.Delete(&user).Error
+	return err
+}
+
+func GetAllUsers() ([]User, error) {
+	var users []User
+	return users, DB.Find(&users).Error
 }
