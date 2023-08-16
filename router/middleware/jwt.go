@@ -11,7 +11,8 @@ import (
 )
 
 type Claims struct {
-	ID int64 `json:"id"`
+	ID       int64  `json:"id"`
+	Username string `json:"username"`
 	jwt.StandardClaims
 }
 
@@ -19,9 +20,10 @@ const TokenExpireDuration = time.Hour * 24
 
 var Secret = []byte("secret")
 
-func GenToken(id int64) (string, error) {
+func GenToken(id int64, username string) (string, error) {
 	c := Claims{
 		id,
+		username,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(),
 			Issuer:    "clipboard",
