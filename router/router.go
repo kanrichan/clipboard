@@ -11,7 +11,7 @@ func Setup() *gin.Engine {
 
 	api := router.Group("/api/v1")
 
-	auth := api.Group("", middleware.AuthSessionMiddle())
+	auth := api.Group("", middleware.AuthSession())
 
 	api.POST("/user", apis.NewUser)
 	auth.GET("/user/:id", apis.GetUserByID)
@@ -19,9 +19,9 @@ func Setup() *gin.Engine {
 	auth.DELETE("/user/:id", apis.DelUserByID)
 
 	api.POST("/session", apis.NewSession)
-	auth.GET("/session")
-	auth.PUT("/session")
-	auth.DELETE("/session", apis.DelSession)
+	auth.GET("/session/:id", apis.GetSession)
+	auth.PUT("/session/:id", apis.PutSession)
+	auth.DELETE("/session/:id", apis.DelSession)
 
 	return router
 }

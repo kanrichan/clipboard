@@ -46,14 +46,12 @@ func ParseToken(tokenString string) (*Claims, error) {
 	return nil, errors.New("invalid token")
 }
 
-func AuthSessionMiddle() gin.HandlerFunc {
+func AuthSession() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"code": 2003,
-				"msg":  "请求头中auth为空",
-			})
+				"code": 50001, "message": "未以正确的格式提供身份验证信息"})
 			c.Abort()
 			return
 		}
@@ -61,22 +59,19 @@ func AuthSessionMiddle() gin.HandlerFunc {
 		parts := strings.Split(authHeader, ".")
 		if len(parts) != 3 {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"code": 2004,
-				"msg":  "请求头中auth格式有误",
-			})
+				"code": 50001, "message": "未以正确的格式提供身份验证信息"})
 			c.Abort()
 			return
 		}
 		claims, err := ParseToken(authHeader)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"code": 2005,
-				"msg":  "无效的Token",
-			})
+				"code": 50001, "message": "未以正确的格式提供身份验证信息"})
 			c.Abort()
 			return
 		}
-		c.Set("username", claims.ID)
+		c.Set("id", claims.ID)
+		c.Set("username", claims.Username)
 		c.Next()
 	}
 }
