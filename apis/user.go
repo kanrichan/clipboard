@@ -42,8 +42,8 @@ func GetUserByID(c *gin.Context) {
 	}
 	user, err := model.GetUserByID(id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": ErrInternalErrorCode, "message": ErrInternalError})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": ErrInvalidUserIDCode, "message": ErrInvalidUserID})
 		return
 	}
 	response.ID = user.ID

@@ -20,8 +20,13 @@ func Setup() *gin.Engine {
 
 	api.POST("/session", apis.NewSession)
 	auth.GET("/session/:id", apis.GetSession)
-	auth.PUT("/session/:id", apis.PutSession)
+	auth.PUT("/session/:id", apis.UpdSession)
 	auth.DELETE("/session/:id", apis.DelSession)
+
+	auth.POST("/post", apis.NewPost)
+	auth.GET("/post/:id", apis.GetPostByID)
+	auth.PUT("/post/:id", apis.UpdPostByID)
+	auth.DELETE("/post/:id", apis.DelPostByID)
 
 	return router
 }

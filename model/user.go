@@ -22,12 +22,6 @@ func GetUserByID(id int64) (User, error) {
 	return user, DB.First(&user, "id = ? ", id).Error
 }
 
-func DelUserByID(id int64) error {
-	var user = &User{ID: id}
-	err := DB.Delete(&user).Error
-	return err
-}
-
 func UpdUserByID(id int64, username, password string) error {
 	var user = User{
 		ID:       id,
@@ -35,6 +29,12 @@ func UpdUserByID(id int64, username, password string) error {
 		Password: password,
 	}
 	return DB.Model(&user).Where("id = ? ", user.ID).Update(user).Error
+}
+
+func DelUserByID(id int64) error {
+	var user = &User{ID: id}
+	err := DB.Delete(&user).Error
+	return err
 }
 
 func VerifyUserByUsernameAndPassword(username, password string) (int64, error) {

@@ -56,7 +56,7 @@ func GetSession(c *gin.Context) {
 	c.JSON(200, gin.H{"code": 0, "message": ""})
 }
 
-func PutSession(c *gin.Context) {
+func UpdSession(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

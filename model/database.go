@@ -36,6 +36,7 @@ func Setup() error {
 	}
 
 	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Post{})
 
 	DB = db
 	return nil
