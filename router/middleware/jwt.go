@@ -8,6 +8,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/kanrichan/clipboard/config"
 )
 
 type Claims struct {
@@ -17,8 +18,6 @@ type Claims struct {
 }
 
 const TokenExpireDuration = time.Hour * 24
-
-var Secret = []byte("secret")
 
 func GenToken(id int64, username string) (string, error) {
 	c := Claims{
@@ -30,12 +29,12 @@ func GenToken(id int64, username string) (string, error) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
-	return token.SignedString(Secret)
+	return token.SignedString(config.JWTSecret)
 }
 
 func ParseToken(tokenString string) (*Claims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (i interface{}, err error) {
-		return Secret, nil
+		return config.JWTSecret, nil
 	})
 	if err != nil {
 		return nil, err
